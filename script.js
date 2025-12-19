@@ -44,7 +44,7 @@ function loadQuestions() {
     `;
   } else if (state.situation === "confraternizacao") {
     el.innerHTML = `
-      <h2>Com quem?</h2>
+      <h2>Confraternização com:</h2>
       <button onclick="setProfile('familia')">Família</button>
       <button onclick="setProfile('amigos')">Amigos</button>
       <button onclick="setProfile('trabalho')">Trabalho</button>
@@ -89,27 +89,33 @@ function generateList() {
 
   if (state.situation === "feira") {
     base = [
-      "Arroz","Feijão","Óleo","Carne","Frango","Verduras",
-      "Frutas","Leite","Pão","Higiene","Limpeza","Lanches (opcional)"
+      "Arroz","Feijão","Macarrão","Óleo","Açúcar","Sal",
+      "Carne","Frango","Ovos","Verduras","Frutas",
+      "Leite","Café","Pão",
+      "Produtos de limpeza","Higiene pessoal",
+      "Lanches (opcional)"
     ];
   }
 
   if (state.situation === "volta_aulas") {
     base = state.profile === "crianca"
-      ? ["Caderno","Lápis","Borracha","Estojo","Mochila"]
-      : ["Caderno","Caneta","Agenda"];
+      ? ["Caderno","Lápis","Borracha","Apontador","Estojo","Mochila"]
+      : ["Caderno","Caneta","Marca-texto","Agenda"];
   }
 
   if (state.situation === "aniversario") {
     base = state.profile === "infantil"
-      ? ["Bolo","Doces","Decoração","Lembrancinhas"]
-      : ["Bolo","Salgados","Bebidas"];
+      ? ["Bolo","Doces","Salgadinhos","Decoração","Lembrancinhas"]
+      : ["Bolo","Salgados","Bebidas","Descartáveis"];
+  }
+
+  if (state.situation === "familia") {
+    base = ["Arroz","Feijão","Carne","Acompanhamentos","Bebidas","Sobremesa"];
   }
 
   if (state.economy) base = base.slice(0, Math.ceil(base.length / 2));
 
   state.items = base;
-
   renderResult();
 }
 
@@ -122,14 +128,12 @@ function renderResult() {
 
     ${state.items.map(i => `
       <label>
-        <input type="checkbox" onchange="updateProgress()">
-        ${i}
-      </label><br>
+        <input type="checkbox" onchange="updateProgress()"> ${i}
+      </label>
     `).join("")}
 
     <p id="checkProgress">0% concluído</p>
 
-    <button onclick="share()">📤 Compartilhar</button>
     <button onclick="window.print()">🧾 Imprimir</button>
   `;
 }
