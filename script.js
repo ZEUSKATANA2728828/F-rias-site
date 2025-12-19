@@ -1,132 +1,164 @@
-let dados = {
-  situacao: "",
-  perfil: "",
-  serie: "",
-  orcamento: 0,
-  estilo: ""
+let step = 1;
+let state = {
+  situation: "",
+  profile: "",
+  budget: 0,
+  style: "",
+  people: 5,
+  economy: false,
+  items: []
 };
 
-const steps = ["step1","step2","step3","step4","resultado"];
+const steps = document.querySelectorAll(".step");
+const progressBar = document.getElementById("progressBar");
 
-function trocar(atual, proximo) {
-  document.getElementById(atual).classList.add("hidden");
-  document.getElementById(proximo).classList.remove("hidden");
+function showStep(n) {
+  steps.forEach(s => s.classList.remove("active"));
+  document.getElementById("step" + n)?.classList.add("active");
+  if (n === 5) document.getElementById("result").classList.add("active");
+  progressBar.style.width = ((n - 1) / 4) * 100 + "%";
 }
 
-function escolherSituacao(s) {
-  dados.situacao = s;
-  montarPerguntas();
-  trocar("step1","step2");
+function selectSituation(s) {
+  state.situation = s;
+  loadQuestions();
+  step = 2;
+  showStep(step);
 }
 
-function montarPerguntas() {
-  const step2 = document.getElementById("step2");
-  step2.innerHTML = "";
+function loadQuestions() {
+  const el = document.getElementById("step2");
 
-  if (dados.situacao === "volta_aulas") {
-    step2.innerHTML = `
-      <h2>O aluno é:</h2>
-      <button onclick="perfil('crianca')">👶 Criança</button>
-      <button onclick="perfil('adulto')">🧑 Adulto</button>
+  if (state.situation === "volta_aulas") {
+    el.innerHTML = `
+      <h2>Aluno é:</h2>
+      <button onclick="setProfile('crianca')">Criança</button>
+      <button onclick="setProfile('adulto')">Adulto</button>
     `;
-  }
-
-  else if (dados.situacao === "aniversario") {
-    step2.innerHTML = `
-      <h2>Festa para:</h2>
-      <button onclick="perfil('infantil')">👶 Infantil</button>
-      <button onclick="perfil('jovem')">🧒 Jovem</button>
-      <button onclick="perfil('adulto')">🧑 Adulto</button>
+  } else if (state.situation === "aniversario") {
+    el.innerHTML = `
+      <h2>Tipo de festa</h2>
+      <button onclick="setProfile('infantil')">Infantil</button>
+      <button onclick="setProfile('jovem')">Jovem</button>
+      <button onclick="setProfile('adulto')">Adulto</button>
     `;
-  }
-
-  else if (dados.situacao === "confraternizacao") {
-    step2.innerHTML = `
-      <h2>Vai ser com quem?</h2>
-      <button onclick="perfil('familia')">👨‍👩‍👧 Família</button>
-      <button onclick="perfil('amigos')">🧑‍🤝‍🧑 Amigos</button>
-      <button onclick="perfil('trabalho')">🏢 Trabalho</button>
-      <button onclick="perfil('todos')">🌐 Todos</button>
-    `;
-  }
-
-  else {
-    step2.innerHTML = `
-      <h2>Continuar</h2>
-      <button onclick="perfil('padrao')">➡️ Próximo</button>
-    `;
-  }
-}
-
-function perfil(p) {
-  dados.perfil = p;
-
-  if (dados.situacao === "volta_aulas") {
-    document.getElementById("step2").innerHTML = `
-      <h2>Qual a série?</h2>
-      <button onclick="serie('infantil')">Infantil</button>
-      <button onclick="serie('fundamental')">Fundamental</button>
-      <button onclick="serie('medio')">Ensino Médio</button>
-      <button onclick="serie('faculdade')">Faculdade</button>
+  } else if (state.situation === "confraternizacao") {
+    el.innerHTML = `
+      <h2>Com quem?</h2>
+      <button onclick="setProfile('familia')">Família</button>
+      <button onclick="setProfile('amigos')">Amigos</button>
+      <button onclick="setProfile('trabalho')">Trabalho</button>
+      <button onclick="setProfile('todos')">Todos</button>
     `;
   } else {
-    trocar("step2","step3");
+    el.innerHTML = `
+      <h2>Continuar</h2>
+      <button onclick="setProfile('padrao')">➡️ Próximo</button>
+    `;
   }
 }
 
-function serie(s) {
-  dados.serie = s;
-  trocar("step2","step3");
+function setProfile(p) {
+  state.profile = p;
+  step = 3;
+  showStep(step);
 }
 
-function definirOrcamento(o) {
-  dados.orcamento = o;
-  trocar("step3","step4");
+function setBudget(b) {
+  state.budget = b;
+  step = 4;
+  showStep(step);
 }
 
-function definirEstilo(e) {
-  dados.estilo = e;
-  mostrarResultado();
+function toggleEconomy() {
+  state.economy = !state.economy;
+  alert("Modo economia extrema ativado!");
 }
 
-function mostrarResultado() {
-  trocar("step4","resultado");
-  const r = document.getElementById("resultado");
+function setStyle(s) {
+  state.style = s;
+  state.people = document.getElementById("people").value;
+  generateList();
+}
 
-  let lista = [];
+function generateList() {
+  step = 5;
+  progressBar.style.width = "100%";
 
-  if (dados.situacao === "feira") {
-    lista = ["Arroz","Feijão","Carnes","Verduras","Frutas","Limpeza","Higiene","Lanches (opcional)"];
+  let base = [];
+
+  if (state.situation === "feira") {
+    base = [
+      "Arroz","Feijão","Óleo","Carne","Frango","Verduras",
+      "Frutas","Leite","Pão","Higiene","Limpeza","Lanches (opcional)"
+    ];
   }
-  else if (dados.situacao === "volta_aulas") {
-    lista = dados.perfil === "crianca"
-      ? ["Caderno","Lápis","Borracha","Mochila"]
-      : ["Caderno","Caneta","Mochila"];
+
+  if (state.situation === "volta_aulas") {
+    base = state.profile === "crianca"
+      ? ["Caderno","Lápis","Borracha","Estojo","Mochila"]
+      : ["Caderno","Caneta","Agenda"];
   }
-  else if (dados.situacao === "aniversario") {
-    lista = dados.perfil === "infantil"
+
+  if (state.situation === "aniversario") {
+    base = state.profile === "infantil"
       ? ["Bolo","Doces","Decoração","Lembrancinhas"]
       : ["Bolo","Salgados","Bebidas"];
   }
-  else {
-    lista = ["Itens básicos","Bebidas","Descartáveis"];
-  }
 
-  r.innerHTML = `
+  if (state.economy) base = base.slice(0, Math.ceil(base.length / 2));
+
+  state.items = base;
+
+  renderResult();
+}
+
+function renderResult() {
+  const el = document.getElementById("result");
+  el.innerHTML = `
     <h2>✅ Sua lista</h2>
-    <p>Orçamento: R$ ${dados.orcamento}</p>
-    ${lista.map(i => `<label><input type="checkbox"> ${i}</label><br>`).join("")}
-    <br>
-    <button onclick="window.location.reload()">🔄 Recomeçar</button>
+    <p>💰 Orçamento: R$ ${state.budget}</p>
+    <p>👥 Pessoas: ${state.people}</p>
+
+    ${state.items.map(i => `
+      <label>
+        <input type="checkbox" onchange="updateProgress()">
+        ${i}
+      </label><br>
+    `).join("")}
+
+    <p id="checkProgress">0% concluído</p>
+
+    <button onclick="share()">📤 Compartilhar</button>
+    <button onclick="window.print()">🧾 Imprimir</button>
   `;
 }
 
-/* Extras */
-document.getElementById("darkMode").onclick = () => {
+function updateProgress() {
+  const total = document.querySelectorAll("input[type=checkbox]").length;
+  const done = document.querySelectorAll("input[type=checkbox]:checked").length;
+  document.getElementById("checkProgress").innerText =
+    Math.round((done / total) * 100) + "% concluído";
+}
+
+function goBack() {
+  if (step > 1) {
+    step--;
+    showStep(step);
+  }
+}
+
+function restart() {
+  location.reload();
+}
+
+function randomPick() {
+  const all = ["volta_aulas","feira","aniversario","confraternizacao","familia"];
+  selectSituation(all[Math.floor(Math.random() * all.length)]);
+}
+
+document.getElementById("darkToggle").onclick = () => {
   document.body.classList.toggle("dark");
 };
 
-function aleatorio() {
-  const op = ["planejamento","volta_aulas","feira","aniversario","festa_casa"];
-  escolherSituacao(op[Math.floor(Math.random()*op.length)]);
-}
+showStep(1);
