@@ -6,59 +6,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#ff7a00">
 
-  <!-- PWA -->
   <link rel="manifest" href="manifest.json">
-
-  <!-- Estilo -->
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<header class="top">
-  <div class="logo">📋</div>
-  <h1>Lista Inteligente</h1>
-  <button class="pro-btn" onclick="togglePro()">🚀 Modo Avançado</button>
+<header>
+  <h1>📋 Lista Inteligente</h1>
+  <button onclick="togglePro()">🚀 Modo Avançado</button>
 </header>
 
-<main id="app">
+<main>
 
-  <!-- PASSO 1 -->
-  <section id="step1" class="step active">
-    <h2>O que você vai fazer?</h2>
+<section id="step1" class="step active">
+  <h2>O que você vai fazer?</h2>
+  <button onclick="selectSituation('feira')">🛒 Compras do mês</button>
+  <button onclick="selectSituation('churrasco')">🔥 Churrasco</button>
+  <button onclick="selectSituation('aniversario')">🎉 Aniversário</button>
+  <button onclick="selectSituation('familia')">👨‍👩‍👧 Almoço em família</button>
+</section>
 
-    <button onclick="selectSituation('feira')">🛒 Compras do mês</button>
-    <button onclick="selectSituation('churrasco')">🔥 Churrasco</button>
-    <button onclick="selectSituation('aniversario')">🎉 Aniversário</button>
-    <button onclick="selectSituation('familia')">👨‍👩‍👧 Almoço em família</button>
-    <button onclick="selectSituation('escola')">🎒 Volta às aulas</button>
-  </section>
+<section id="step2" class="step">
+  <h2>Quantas pessoas?</h2>
+  <input type="number" id="people" value="1" min="1">
+  <button onclick="nextStep(3)">Continuar</button>
+</section>
 
-  <!-- PASSO 2 -->
-  <section id="step2" class="step">
-    <h2>Quantas pessoas?</h2>
-    <input type="number" id="people" value="1" min="1">
-    <button onclick="nextStep(3)">Continuar</button>
-  </section>
+<section id="step3" class="step">
+  <h2>Estilo</h2>
+  <button onclick="setStyle('simples')">Simples</button>
+  <button onclick="setStyle('completo')">Completo</button>
+</section>
 
-  <!-- PASSO 3 -->
-  <section id="step3" class="step">
-    <h2>Estilo</h2>
-    <button onclick="setStyle('simples')">Simples</button>
-    <button onclick="setStyle('completo')">Completo</button>
-  </section>
-
-  <!-- RESULTADO -->
-  <section id="result" class="step"></section>
+<section id="result" class="step"></section>
 
 </main>
 
 <script src="script.js"></script>
-
 <script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js');
-  }
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
 </script>
 
 </body>
