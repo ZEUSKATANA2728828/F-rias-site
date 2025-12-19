@@ -1,15 +1,8 @@
 {
   "name": "Lista Inteligente",
   "short_name": "Lista",
-  "start_url": "./index.html",
+  "start_url": ".",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#ff6a00",
-  "icons": [
-    {
-      "src": "logo.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
-  ]
+  "theme_color": "#ff7a00",
+  "background_color": "#121212"
 }
