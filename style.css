@@ -1,0 +1,46 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+}
+
+.dark {
+  background: #111;
+  color: #fff;
+}
+
+.container {
+  max-width: 420px;
+  margin: 40px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.dark .container {
+  background: #222;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  border: none;
+  border-radius: 6px;
+  background: #d35400;
+  color: white;
+  font-size: 15px;
+}
+
+.secundario {
+  background: #555;
+}
+
+.hidden {
+  display: none;
+}
+
+#darkMode {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+}
