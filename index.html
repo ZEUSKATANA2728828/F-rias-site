@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Listas Inteligentes</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<button id="darkMode">🌙</button>
+
+<div class="container">
+
+  <!-- STEP 1 -->
+  <div class="step" id="step1">
+    <h2>O que você quer fazer?</h2>
+
+    <button onclick="escolherSituacao('planejamento')">🧮 Planejamento</button>
+    <button onclick="escolherSituacao('volta_aulas')">🎒 Volta às aulas</button>
+    <button onclick="escolherSituacao('feira')">🛒 Compras do mês (Feira)</button>
+    <button onclick="escolherSituacao('aniversario')">🎂 Festa de aniversário</button>
+    <button onclick="escolherSituacao('festa_casa')">🏠 Festa simples em casa</button>
+    <button onclick="escolherSituacao('confraternizacao')">🤝 Confraternização</button>
+    <button onclick="escolherSituacao('pascoa')">🐣 Almoço de Páscoa</button>
+    <button onclick="escolherSituacao('familia')">🍽️ Almoço em família</button>
+
+    <button class="secundario" onclick="aleatorio()">🎯 Tô sem ideia</button>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step hidden" id="step2"></div>
+
+  <!-- STEP 3 -->
+  <div class="step hidden" id="step3">
+    <h2>Quanto você pode gastar?</h2>
+    <button onclick="definirOrcamento(250)">R$ 250</button>
+    <button onclick="definirOrcamento(500)">R$ 500</button>
+    <button onclick="definirOrcamento(1412)">Até 1 salário mínimo</button>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step hidden" id="step4">
+    <h2>Como vai ser?</h2>
+    <button onclick="definirEstilo('simples')">🔥 Simples</button>
+    <button onclick="definirEstilo('completo')">🍖 Completo</button>
+  </div>
+
+  <!-- RESULTADO -->
+  <div class="step hidden" id="resultado"></div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
