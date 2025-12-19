@@ -5,7 +5,6 @@ const state = {
   pro: false
 };
 
-// Navegação
 function nextStep(n) {
   document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
   document.getElementById("step" + n).classList.add("active");
@@ -21,29 +20,24 @@ function togglePro() {
   alert(state.pro ? "Modo Avançado ativado 🚀" : "Modo Avançado desativado");
 }
 
-// Estilo
 function setStyle(style) {
   state.style = style;
   state.people = parseInt(document.getElementById("people").value) || 1;
   generateList();
 }
 
-// Geração da lista
 function generateList() {
   let data = {};
+  let total = 0;
 
   if (state.situation === "churrasco") {
     data = {
       "🥩 Carnes": [
-        { n: "Carne bovina", q: state.people * 0.4 + " kg" },
-        { n: "Frango", q: state.people * 0.3 + " kg" }
-      ],
-      "🥗 Acompanhamentos": [
-        { n: "Arroz", q: state.people * 0.2 + " kg" },
-        { n: "Farofa", q: state.people * 0.1 + " kg" }
+        { n: "Carne bovina", q: state.people * 0.4, u: "kg", p: 45 },
+        { n: "Frango", q: state.people * 0.3, u: "kg", p: 20 }
       ],
       "🥤 Bebidas": [
-        { n: "Refrigerante", q: state.people * 0.6 + " L" }
+        { n: "Refrigerante", q: state.people * 0.6, u: "L", p: 6 }
       ]
     };
   }
@@ -51,41 +45,53 @@ function generateList() {
   if (state.situation === "feira") {
     data = {
       "🍚 Básicos": [
-        { n: "Arroz", q: "2 kg" },
-        { n: "Feijão", q: "1 kg" }
-      ],
-      "🧼 Limpeza": [
-        { n: "Detergente", q: "2 un" }
+        { n: "Arroz", q: 2, u: "kg", p: 7 },
+        { n: "Feijão", q: 1, u: "kg", p: 9 }
       ]
     };
   }
 
-  render(data);
-}
-
-// Render
-function render(data) {
-  let html = `<h2>📦 Sua Lista</h2>`;
+  let html = "<h2>📦 Sua Lista</h2>";
+  let textShare = "📋 *Minha Lista*\n\n";
 
   for (let cat in data) {
     html += `<div class="category"><h3>${cat}</h3>`;
+    textShare += `*${cat}*\n`;
+
     data[cat].forEach(i => {
-      html += `<div class="item">✔ ${i.n} — <strong>${i.q}</strong></div>`;
+      let cost = i.q * i.p;
+      total += cost;
+      html += `<div class="item">✔ ${i.n} — ${i.q}${i.u} (R$ ${cost.toFixed(2)})</div>`;
+      textShare += `- ${i.n}: ${i.q}${i.u}\n`;
     });
+
     html += "</div>";
+    textShare += "\n";
   }
+
+  html += `<div class="total">💰 Total estimado: R$ ${total.toFixed(2)}</div>`;
+
+  html += `
+    <button onclick="shareWhats('${encodeURIComponent(textShare)}')">
+      📤 Compartilhar no WhatsApp
+    </button>
+  `;
 
   if (state.pro) {
     html += `
       <div class="category">
         <h3>🚀 Modo Avançado</h3>
-        <div class="item">📊 Ajustes inteligentes</div>
+        <div class="item">📊 Ajuste inteligente</div>
         <div class="item">💾 Histórico salvo</div>
-        <div class="item">📤 Exportar lista</div>
+        <div class="item">📉 Modo economia</div>
       </div>
     `;
   }
 
   document.getElementById("result").innerHTML = html;
   nextStep("result");
+}
+
+function shareWhats(text) {
+  window.open(`https://wa.me/?text=${text}`, "_blank");
 }
