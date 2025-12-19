@@ -3,13 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <title>Lista Inteligente</title>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ff6a00">
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="logo.png">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header>
-  <h1>📋 Lista Inteligente</h1>
+  <div class="header-left">
+    <img src="logo.png" class="logo">
+    <h1>Lista Inteligente</h1>
+  </div>
   <button id="darkToggle">🌙</button>
 </header>
 
@@ -17,46 +25,46 @@
   <div id="progressBar"></div>
 </div>
 
-<main id="app">
+<main>
 
-  <!-- STEP 1 -->
+  <!-- ETAPA 1 -->
   <section class="step active" id="step1">
-    <h2>O que você quer fazer?</h2>
+    <h2>O que você quer planejar?</h2>
 
     <button onclick="selectSituation('volta_aulas')">🎒 Volta às aulas</button>
-    <button onclick="selectSituation('feira')">🛒 Feira</button>
+    <button onclick="selectSituation('feira')">🛒 Compras do mês (Feira)</button>
     <button onclick="selectSituation('aniversario')">🎂 Festa de aniversário</button>
     <button onclick="selectSituation('confraternizacao')">🤝 Confraternização</button>
     <button onclick="selectSituation('familia')">🍽️ Almoço em família</button>
 
-    <button class="ghost" onclick="randomPick()">🎯 Tô sem ideia</button>
+    <button class="ghost" onclick="randomPick()">🎯 Não sei ainda</button>
   </section>
 
-  <!-- STEP 2 -->
+  <!-- ETAPA 2 -->
   <section class="step" id="step2"></section>
 
-  <!-- STEP 3 -->
+  <!-- ETAPA 3 -->
   <section class="step" id="step3">
-    <h2>Orçamento</h2>
+    <h2>Quanto pode gastar?</h2>
     <button onclick="setBudget(250)">R$ 250</button>
     <button onclick="setBudget(500)">R$ 500</button>
-    <button onclick="setBudget(1412)">1 salário mínimo</button>
-    <button class="ghost" onclick="toggleEconomy()">💸 Economia extrema</button>
+    <button onclick="setBudget(1412)">1 Salário mínimo</button>
+    <button class="ghost" onclick="toggleEconomy()">💸 Modo economia extrema</button>
   </section>
 
-  <!-- STEP 4 -->
+  <!-- ETAPA 4 -->
   <section class="step" id="step4">
     <h2>Estilo</h2>
     <button onclick="setStyle('simples')">Simples</button>
     <button onclick="setStyle('completo')">Completo</button>
 
-    <label class="input">
+    <label>
       Quantidade de pessoas
-      <input type="number" min="1" value="5" id="people">
+      <input type="number" id="people" value="5" min="1">
     </label>
   </section>
 
-  <!-- RESULT -->
+  <!-- RESULTADO -->
   <section class="step" id="result"></section>
 
 </main>
@@ -67,5 +75,12 @@
 </footer>
 
 <script src="script.js"></script>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("service-worker.js");
+  }
+</script>
+
 </body>
 </html>
