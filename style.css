@@ -4,7 +4,7 @@
 
 body {
   margin: 0;
-  font-family: system-ui, Arial;
+  font-family: system-ui, Arial, sans-serif;
   background: #f4f4f4;
   color: #222;
 }
@@ -17,9 +17,22 @@ body {
 header {
   display: flex;
   justify-content: space-between;
-  padding: 15px;
+  align-items: center;
   background: #ff6a00;
+  padding: 12px;
   color: white;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
 }
 
 .progress {
@@ -46,12 +59,16 @@ main {
   display: block;
 }
 
+h2 {
+  margin-bottom: 10px;
+}
+
 button {
   width: 100%;
   padding: 14px;
   margin-top: 10px;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   background: #ff6a00;
   color: white;
   font-size: 16px;
@@ -63,7 +80,7 @@ button.ghost {
   color: #ff6a00;
 }
 
-label.input {
+label {
   display: block;
   margin-top: 15px;
 }
@@ -87,6 +104,7 @@ footer {
 .dark button {
   background: #333;
 }
+
 @keyframes fade {
   from { opacity: 0 }
   to { opacity: 1 }
