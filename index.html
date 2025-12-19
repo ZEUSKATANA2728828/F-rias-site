@@ -3,82 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <title>Lista Inteligente</title>
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#ff6a00">
+  <meta name="theme-color" content="#ff7a00">
 
+  <!-- PWA -->
   <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="logo.png">
+
+  <!-- Estilo -->
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<header>
-  <div class="header-left">
-    <img src="logo.png" class="logo">
-    <h1>Lista Inteligente</h1>
-  </div>
-  <button id="darkToggle">🌙</button>
+<header class="top">
+  <div class="logo">📋</div>
+  <h1>Lista Inteligente</h1>
+  <button class="pro-btn" onclick="togglePro()">🚀 Modo Avançado</button>
 </header>
 
-<div class="progress">
-  <div id="progressBar"></div>
-</div>
+<main id="app">
 
-<main>
+  <!-- PASSO 1 -->
+  <section id="step1" class="step active">
+    <h2>O que você vai fazer?</h2>
 
-  <!-- ETAPA 1 -->
-  <section class="step active" id="step1">
-    <h2>O que você quer planejar?</h2>
-
-    <button onclick="selectSituation('volta_aulas')">🎒 Volta às aulas</button>
-    <button onclick="selectSituation('feira')">🛒 Compras do mês (Feira)</button>
-    <button onclick="selectSituation('aniversario')">🎂 Festa de aniversário</button>
-    <button onclick="selectSituation('confraternizacao')">🤝 Confraternização</button>
-    <button onclick="selectSituation('familia')">🍽️ Almoço em família</button>
-
-    <button class="ghost" onclick="randomPick()">🎯 Não sei ainda</button>
+    <button onclick="selectSituation('feira')">🛒 Compras do mês</button>
+    <button onclick="selectSituation('churrasco')">🔥 Churrasco</button>
+    <button onclick="selectSituation('aniversario')">🎉 Aniversário</button>
+    <button onclick="selectSituation('familia')">👨‍👩‍👧 Almoço em família</button>
+    <button onclick="selectSituation('escola')">🎒 Volta às aulas</button>
   </section>
 
-  <!-- ETAPA 2 -->
-  <section class="step" id="step2"></section>
-
-  <!-- ETAPA 3 -->
-  <section class="step" id="step3">
-    <h2>Quanto pode gastar?</h2>
-    <button onclick="setBudget(250)">R$ 250</button>
-    <button onclick="setBudget(500)">R$ 500</button>
-    <button onclick="setBudget(1412)">1 Salário mínimo</button>
-    <button class="ghost" onclick="toggleEconomy()">💸 Modo economia extrema</button>
+  <!-- PASSO 2 -->
+  <section id="step2" class="step">
+    <h2>Quantas pessoas?</h2>
+    <input type="number" id="people" value="1" min="1">
+    <button onclick="nextStep(3)">Continuar</button>
   </section>
 
-  <!-- ETAPA 4 -->
-  <section class="step" id="step4">
+  <!-- PASSO 3 -->
+  <section id="step3" class="step">
     <h2>Estilo</h2>
     <button onclick="setStyle('simples')">Simples</button>
     <button onclick="setStyle('completo')">Completo</button>
-
-    <label>
-      Quantidade de pessoas
-      <input type="number" id="people" value="5" min="1">
-    </label>
   </section>
 
   <!-- RESULTADO -->
-  <section class="step" id="result"></section>
+  <section id="result" class="step"></section>
 
 </main>
-
-<footer>
-  <button onclick="goBack()">⬅️ Voltar</button>
-  <button onclick="restart()">🔄 Reiniciar</button>
-</footer>
 
 <script src="script.js"></script>
 
 <script>
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("service-worker.js");
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
   }
 </script>
 
