@@ -3,6 +3,13 @@
   "short_name": "Lista",
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#ff7a00",
-  "background_color": "#121212"
+  "background_color": "#ffffff",
+  "theme_color": "#0a7cff",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3523/3523063.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
