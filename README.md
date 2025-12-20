@@ -1,30 +1,24 @@
 # 📋 Lista Inteligente
 
-Planeje compras, eventos e situações do dia a dia de forma simples, rápida e inteligente.
+App de lista de compras inteligente feito para rodar 100% offline no GitHub Pages.
 
 ## 🚀 Funcionalidades
-- Planejamento automático
-- Feira, festas, volta às aulas e almoços
-- Ajuste por orçamento
-- Modo economia
-- Checklist interativo
-- Funciona offline
-- Instalável como aplicativo (PWA)
+- Checklist com progresso
+- Modo mercado
+- Vibração no celular
+- Histórico local
+- PWA (instalável)
+- Funciona sem internet
 
-## 📱 Instalar no celular
-1. Abra o site no Chrome
-2. Toque em “Adicionar à tela inicial”
-3. Use como aplicativo 📲
+## 📱 Instalação
+Abra o site no celular e toque em **“Adicionar à tela inicial”**
 
 ## 🛠️ Tecnologias
-- HTML5
-- CSS3
-- JavaScript
-- PWA
+- HTML
+- CSS
+- JavaScript puro
 - Service Worker
+- LocalStorage
 
-## 🌐 Publicação
-GitHub Pages (100% gratuito)
-
-## 👤 Autor
-Projeto criado por você 😎🔥
+## 📄 Licença
+Uso livre
