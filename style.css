@@ -1,58 +1,82 @@
+* {
+  box-sizing: border-box;
+  font-family: system-ui, Arial;
+}
+
 body {
   margin: 0;
-  font-family: system-ui, Arial;
-  background: #121212;
-  color: #fff;
+  background: #f4f6f8;
 }
 
-header {
-  padding: 15px;
-  background: #1e1e1e;
+#app {
+  min-height: 100vh;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
 }
 
-button {
-  width: 100%;
+main {
+  flex: 1;
+  padding: 16px;
+  padding-bottom: 80px;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+.card {
+  background: #fff;
+  border-radius: 14px;
   padding: 14px;
-  margin: 8px 0;
-  border: none;
-  border-radius: 12px;
-  background: #2a2a2a;
-  color: #fff;
-  font-size: 16px;
-}
-
-button:hover {
-  background: #ff7a00;
-  color: #000;
-}
-
-input {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
-}
-
-.step { display: none; padding: 20px; }
-.step.active { display: block; }
-
-.category {
-  margin-top: 20px;
-}
-
-.category h3 {
-  border-bottom: 1px solid #333;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.06);
 }
 
 .item {
-  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
 }
 
-.total {
-  margin-top: 20px;
-  font-size: 18px;
-  color: #ff7a00;
+.item span.done {
+  text-decoration: line-through;
+  opacity: .6;
+}
+
+button {
+  border: none;
+  background: #0a7cff;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+button.secondary {
+  background: #e0e0e0;
+  color: #000;
+}
+
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  display: flex;
+  border-top: 1px solid #ddd;
+}
+
+.bottom-bar button {
+  flex: 1;
+  background: none;
+  color: #333;
+  padding: 10px 0;
+  border-radius: 0;
+}
+
+.bottom-bar span {
+  display: block;
+  font-size: 12px;
 }
