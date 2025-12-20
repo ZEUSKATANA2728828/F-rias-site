@@ -1,97 +1,126 @@
-const state = {
-  situation: "",
-  people: 1,
-  style: "simples",
-  pro: false
-};
+let current = "home";
+let marketMode = false;
 
-function nextStep(n) {
-  document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
-  document.getElementById("step" + n).classList.add("active");
+const items = [
+  { name: "Arroz", qty: "5kg" },
+  { name: "Feijão", qty: "2kg" },
+  { name: "Carne", qty: "2kg" },
+  { name: "Frango", qty: "2kg" },
+  { name: "Refrigerante", qty: "4L" }
+];
+
+let checklist = JSON.parse(localStorage.getItem("checklist")) || {};
+let history = JSON.parse(localStorage.getItem("history")) || [];
+
+function go(screen) {
+  current = screen;
+  render();
 }
 
-function selectSituation(s) {
-  state.situation = s;
-  nextStep(2);
+function toggleItem(name) {
+  checklist[name] = !checklist[name];
+  localStorage.setItem("checklist", JSON.stringify(checklist));
+  if (navigator.vibrate) navigator.vibrate(40);
+  render();
 }
 
-function togglePro() {
-  state.pro = !state.pro;
-  alert(state.pro ? "Modo Avançado ativado 🚀" : "Modo Avançado desativado");
+function getProgress() {
+  const total = items.length;
+  const done = items.filter(i => checklist[i.name]).length;
+  return {
+    total,
+    done,
+    remaining: total - done,
+    percent: Math.round((done / total) * 100)
+  };
 }
 
-function setStyle(style) {
-  state.style = style;
-  state.people = parseInt(document.getElementById("people").value) || 1;
-  generateList();
-}
+function renderHome() {
+  const p = getProgress();
+  return `
+    <h2>📋 Lista Inteligente</h2>
 
-function generateList() {
-  let data = {};
-  let total = 0;
-
-  if (state.situation === "churrasco") {
-    data = {
-      "🥩 Carnes": [
-        { n: "Carne bovina", q: state.people * 0.4, u: "kg", p: 45 },
-        { n: "Frango", q: state.people * 0.3, u: "kg", p: 20 }
-      ],
-      "🥤 Bebidas": [
-        { n: "Refrigerante", q: state.people * 0.6, u: "L", p: 6 }
-      ]
-    };
-  }
-
-  if (state.situation === "feira") {
-    data = {
-      "🍚 Básicos": [
-        { n: "Arroz", q: 2, u: "kg", p: 7 },
-        { n: "Feijão", q: 1, u: "kg", p: 9 }
-      ]
-    };
-  }
-
-  let html = "<h2>📦 Sua Lista</h2>";
-  let textShare = "📋 *Minha Lista*\n\n";
-
-  for (let cat in data) {
-    html += `<div class="category"><h3>${cat}</h3>`;
-    textShare += `*${cat}*\n`;
-
-    data[cat].forEach(i => {
-      let cost = i.q * i.p;
-      total += cost;
-      html += `<div class="item">✔ ${i.n} — ${i.q}${i.u} (R$ ${cost.toFixed(2)})</div>`;
-      textShare += `- ${i.n}: ${i.q}${i.u}\n`;
-    });
-
-    html += "</div>";
-    textShare += "\n";
-  }
-
-  html += `<div class="total">💰 Total estimado: R$ ${total.toFixed(2)}</div>`;
-
-  html += `
-    <button onclick="shareWhats('${encodeURIComponent(textShare)}')">
-      📤 Compartilhar no WhatsApp
-    </button>
-  `;
-
-  if (state.pro) {
-    html += `
-      <div class="category">
-        <h3>🚀 Modo Avançado</h3>
-        <div class="item">📊 Ajuste inteligente</div>
-        <div class="item">💾 Histórico salvo</div>
-        <div class="item">📉 Modo economia</div>
+    <div class="card">
+      <strong>Status</strong>
+      <p>Comprados: ${p.done}</p>
+      <p>Faltam: ${p.remaining}</p>
+      <div style="background:#eee;border-radius:10px;overflow:hidden">
+        <div style="width:${p.percent}%;background:#0a7cff;color:white;text-align:center">
+          ${p.percent}%
+        </div>
       </div>
-    `;
-  }
+    </div>
 
-  document.getElementById("result").innerHTML = html;
-  nextStep("result");
+    <button onclick="go('list')">🛒 Ir para lista</button>
+  `;
 }
 
-function shareWhats(text) {
-  window.open(`https://wa.me/?text=${text}`, "_blank");
+function renderList() {
+  return `
+    <h2>🛒 Lista de Compras</h2>
+
+    <div class="card">
+      ${items.map(i => `
+        <div class="item" onclick="toggleItem('${i.name}')">
+          <input type="checkbox" ${checklist[i.name] ? "checked" : ""}/>
+          <span class="${checklist[i.name] ? "done" : ""}">
+            ${i.name} — ${i.qty}
+          </span>
+        </div>
+      `).join("")}
+    </div>
+
+    <button class="secondary" onclick="clearChecklist()">🧹 Limpar</button>
+  `;
 }
+
+function renderHistory() {
+  return `
+    <h2>📊 Histórico</h2>
+
+    ${history.length === 0 ? "<p>Nenhum histórico</p>" : ""}
+    ${history.map(h => `
+      <div class="card">
+        ${h}
+      </div>
+    `).join("")}
+  `;
+}
+
+function renderSettings() {
+  return `
+    <h2>⚙️ Configurações</h2>
+
+    <div class="card">
+      <button onclick="toggleMarketMode()">🛍️ Modo Mercado</button>
+      <button class="secondary" onclick="resetAll()">🧨 Resetar tudo</button>
+    </div>
+  `;
+}
+
+function toggleMarketMode() {
+  marketMode = !marketMode;
+  alert(marketMode ? "Modo mercado ON" : "Modo mercado OFF");
+}
+
+function clearChecklist() {
+  checklist = {};
+  localStorage.removeItem("checklist");
+  render();
+}
+
+function resetAll() {
+  localStorage.clear();
+  location.reload();
+}
+
+function render() {
+  const screen = document.getElementById("screen");
+
+  if (current === "home") screen.innerHTML = renderHome();
+  if (current === "list") screen.innerHTML = renderList();
+  if (current === "history") screen.innerHTML = renderHistory();
+  if (current === "settings") screen.innerHTML = renderSettings();
+}
+
+render();
